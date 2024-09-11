@@ -27,9 +27,12 @@ namespace SignalRSample.Hubs
                 GroupJoined.Add(key);
 
                 string houseList = await GetHouseList();
-                await Clients.Caller.SendAsync("subscriptionStatus", houseList, houseName, true);
-
-                await Clients.Others.SendAsync("subscriptionstatusall", houseName, true);//.GetAwaiter().GetResult();
+                if (Clients.Caller != null)
+                {
+                    await Clients.Caller.SendAsync("subscriptionStatus", houseList, houseName, true);
+                }
+                if (Clients.Others != null)
+                    await Clients.Others.SendAsync("subscriptionstatusall", houseName, true);//.GetAwaiter().GetResult();
                 await Groups.AddToGroupAsync(connectionId: Context.ConnectionId, houseName);
             }
 
@@ -44,10 +47,10 @@ namespace SignalRSample.Hubs
                 GroupJoined.Remove(key);
 
                 string houseList = await GetHouseList();
-                await Clients.Caller.SendAsync("subscriptionStatus", houseList, houseName, false);
-
-                await Clients.Others.SendAsync("subscriptionstatusall", houseName, false);//.GetAwaiter().GetResult();
-
+                if (Clients.Caller != null)
+                    await Clients.Caller.SendAsync("subscriptionStatus", houseList, houseName, false);
+                if (Clients.Others != null)
+                    await Clients.Others.SendAsync("subscriptionstatusall", houseName, false);//.GetAwaiter().GetResult();
                 await Groups.RemoveFromGroupAsync(connectionId: Context.ConnectionId, houseName);
             }
         }
