@@ -3,7 +3,7 @@ using Moq;
 using SignalRSample.Hubs;
 using System.Threading.Tasks;
 using Xunit;
-
+namespace SignalRSample.Tests;
 public class UserHubTests
 {
     private readonly UserHub _hub;

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
+namespace SignalRSample.Tests;
 public class HouseGroupHubTests
 {
     private readonly HouseGroupHub _hub;
