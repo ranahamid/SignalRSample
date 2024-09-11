@@ -61,13 +61,35 @@ btn_un_ravenclaw.addEventListener("click", function () {
     connectionHouseGroup.invoke("LeaveHouse", "Ravenclaw");
 });
 
-connectionHouseGroup.on("subscriptionstatusall", ( houseName, hasSubscribed) =>
-{
+//trigger
+trigger_gryffindor.addEventListener("click", function () {
+    event.preventDefault();
+    connectionHouseGroup.invoke("TriggerNotifyHouse", "Gryffindor");
+});
+trigger_slytherin.addEventListener("click", function () {
+    event.preventDefault();
+    connectionHouseGroup.invoke("TriggerNotifyHouse", "Slytherin");
+});
+trigger_hufflepuff.addEventListener("click", function () {
+    event.preventDefault();
+    connectionHouseGroup.invoke("TriggerNotifyHouse", "Hufflepuff");
+});
+trigger_ravenclaw.addEventListener("click", function () {
+    event.preventDefault();
+    connectionHouseGroup.invoke("TriggerNotifyHouse", "Ravenclaw");
+});
+
+
+connectionHouseGroup.on("triggerNotification", (houseName) => {   
+        toastr.info(`A new notification for ${houseName} has been launced.`); 
+})
+
+connectionHouseGroup.on("subscriptionstatusall", (houseName, hasSubscribed) => {
     if (hasSubscribed)
         toastr.info(`Someone Joined to ${houseName}`);
     else
         toastr.error(`Someone Leaved from ${houseName}`);
-})
+});
 
 //on lbl_houseJoined
 connectionHouseGroup.on("subscriptionStatus", (strGroupJoined, houseName, hasSubscribed) => {
