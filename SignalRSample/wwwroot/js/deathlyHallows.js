@@ -19,14 +19,13 @@ connectionDeathlyHallows.on("updateDeathlyHallaowCount", (clock, stone, wand) =>
 //start connection
 function fulfilled() {
     console.log("success");
-    connectionDeathlyHallows.invoke("GetRaceStatus", (raceCounter) => {
-
-        newclockSpan.innerText = raceCounter.clock.toString();
+    connectionDeathlyHallows.invoke("GetRaceStatus").then((raceCounter) => {
+          
+        newclockSpan.innerText = raceCounter.cloak.toString();
         newstoneSpan.innerText = raceCounter.stone.toString();
         newwandSpan.innerText = raceCounter. wand.toString(); 
 
-    });
-    
+    }); 
 }
 function rejected() {
     console.log("error");

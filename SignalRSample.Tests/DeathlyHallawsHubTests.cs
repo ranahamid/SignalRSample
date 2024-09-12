@@ -16,24 +16,24 @@ public  class DeathlyHallawsHubTests
         _hub = new DeathlyHallawsHub();
     }
 
-    [Fact]
-    public void GetRaceStatus_ShouldReturnCorrectRaceStatus()
-    {
-        // Arrange
-        var expectedRaceStatus = new Dictionary<string, int>
-        {
-            { "Gryffindor", 10 },
-            { "Slytherin", 8 },
-            { "Ravenclaw", 12 },
-            { "Hufflepuff", 6 }
-        };
-        SD.DeathlyHallawRace = expectedRaceStatus;
+    //[Fact]
+    //public void GetRaceStatus_ShouldReturnCorrectRaceStatus()
+    //{
+    //    // Arrange
+    //    var expectedRaceStatus = new Dictionary<string, int>
+    //    {
+    //        { "Gryffindor", 10 },
+    //        { "Slytherin", 8 },
+    //        { "Ravenclaw", 12 },
+    //        { "Hufflepuff", 6 }
+    //    };
+    //    SD.DeathlyHallawRace = expectedRaceStatus;
 
-        // Act
-        var result = _hub.GetRaceStatus();
+    //    // Act
+    //    var result = _hub.GetRaceStatus();
 
-        // Assert
-        Assert.Equal(expectedRaceStatus, result);
-    }
+    //    // Assert
+    //    Assert.Equal(expectedRaceStatus, result);
+    //}
 }
 

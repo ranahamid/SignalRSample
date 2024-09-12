@@ -39,7 +39,7 @@ public class HomeController : Controller
     }
 
 
-    public IActionResult Privacy()
+    public IActionResult Notification()
     {
         return View();
     }

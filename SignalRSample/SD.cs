@@ -4,6 +4,7 @@
     {
         static SD()
         {
+            DeathlyHallawRace = new Dictionary<string, int>();
             DeathlyHallawRace.Add(Wand, 0);
             DeathlyHallawRace.Add(Stone, 0);
             DeathlyHallawRace.Add(Cloak, 0);
@@ -13,7 +14,7 @@
         public const string Stone = "stone";
         public const string Cloak = "cloak";
 
-        public static Dictionary<string, int> DeathlyHallawRace = new Dictionary<string, int>();
+        public static Dictionary<string, int> DeathlyHallawRace;
          
     }
 }
