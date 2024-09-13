@@ -4,9 +4,13 @@ namespace SignalRSample.Hubs
 {
     public class ChatHub:Hub
     {
-        public async Task SendMessageToAll(string user, string message)
+        public async Task SendMessageToAll(string sender, string message)
         {
-            await Clients.All.SendAsync("MessageReceived", user, message);
+            await Clients.All.SendAsync("MessageReceived", sender, message);
+        }
+        public async Task SendMessageToReceiver(string sender, string receiver, string message)
+        {
+            await Clients..SendAsync("MessageReceived", user, message);
         }
     }
 }
