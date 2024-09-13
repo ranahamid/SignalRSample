@@ -18,12 +18,21 @@ connectionChat.on("MessageReceived", (user, message) => {
 document.getElementById("sendMessage").addEventListener("click", function (event)
 {
     var senderEmail = document.getElementById("senderEmail").value;
-   // var receiverEmail = document.getElementById("receiverEmail").value;
+    var receiverEmail = document.getElementById("receiverEmail").value;
     var chatMessage = document.getElementById("chatMessage").value; 
 
-    connectionChat.invoke("SendMessageToAll", senderEmail, chatMessage).catch(function (err) {
-        return console.error(err.toString());
-    });
+    if (receiverEmail.length > 0) {
+
+        connectionChat.invoke("SendMessageToReceiver", senderEmail, receiverEmail, chatMessage).catch(function (err) {
+            return console.error(err.toString());
+        });
+    }
+    else {
+        connectionChat.invoke("SendMessageToAll", senderEmail, chatMessage).catch(function (err) {
+            return console.error(err.toString());
+        });
+    }
+  
 
     event.preventDefault();
 
