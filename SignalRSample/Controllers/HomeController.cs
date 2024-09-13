@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using SignalRSample.Models;
 using SignalRSample.Hubs;
 using Microsoft.AspNetCore.SignalR;
+using SignalRSample.Data;
 
 namespace SignalRSample.Controllers;
 
@@ -11,11 +12,15 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IHubContext<DeathlyHallawsHub> _deathlyHallawHubContext;
-
-    public HomeController(ILogger<HomeController> logger, IHubContext<DeathlyHallawsHub> deathlyHallawHubContext)
+    private readonly IHubContext<OrderHub> _orderHubContext;
+    private readonly ApplicationDbContext _context;
+    public HomeController(ILogger<HomeController> logger, IHubContext<DeathlyHallawsHub> deathlyHallawHubContext, ApplicationDbContext context, 
+        IHubContext<OrderHub> orderHubContext)
     {
         _logger = logger;
         _deathlyHallawHubContext = deathlyHallawHubContext;
+        _context = context;
+        _orderHubContext = orderHubContext;
     }
 
     public IActionResult Index()
@@ -25,13 +30,13 @@ public class HomeController : Controller
 
     public async Task<IActionResult> DeathlyHallows(string type)
     {
-        if(SD.DeathlyHallawRace.ContainsKey(type) )
+        if (SD.DeathlyHallawRace.ContainsKey(type))
         {
             SD.DeathlyHallawRace[type]++;
         }
-        await _deathlyHallawHubContext.Clients.All.SendAsync("updateDeathlyHallaowCount", 
+        await _deathlyHallawHubContext.Clients.All.SendAsync("updateDeathlyHallaowCount",
             SD.DeathlyHallawRace[SD.Cloak],
-            SD.DeathlyHallawRace[SD.Stone], 
+            SD.DeathlyHallawRace[SD.Stone],
             SD.DeathlyHallawRace[SD.Wand]
             );
         return Accepted();
@@ -49,4 +54,50 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
+    #region order 
+    [ActionName("Order")]
+    public async Task<IActionResult> Order()
+    {
+        string[] name = { "Bhrugen", "Ben", "Jess", "Laura", "Ron" };
+        string[] itemName = { "Food1", "Food2", "Food3", "Food4", "Food5" };
+
+        Random rand = new Random();
+        // Generate a random index less than the size of the array.  
+        int index = rand.Next(name.Length);
+
+        Order order = new Order()
+        {
+            Name = name[index],
+            ItemName = itemName[index],
+            Count = index
+        };
+
+        return View(order);
+    }
+
+    [ActionName("Order")]
+    [HttpPost]
+    public async Task<IActionResult> OrderPost(Order order)
+    {
+
+        _context.Orders.Add(order);
+        _context.SaveChanges();
+
+        await _orderHubContext.Clients.All.SendAsync("newOrder");
+
+        return RedirectToAction(nameof(Order));
+    }
+    [ActionName("OrderList")]
+    public async Task<IActionResult> OrderList()
+    {
+        return View();
+    }
+    [HttpGet]
+    public IActionResult GetAllOrder()
+    {
+        var productList = _context.Orders.ToList();
+        return Json(new { data = productList });
+    }
+    #endregion
 }

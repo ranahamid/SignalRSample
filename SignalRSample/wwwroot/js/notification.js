@@ -9,7 +9,7 @@ var connectionNotification= new signalR.HubConnectionBuilder()
 
 document.getElementById("sendButton").disabled = true;
 document.getElementById("sendButton").addEventListener("click", function (event) {
-    debugger
+     
     var msg = document.getElementById("notificationInput").value;
    
 
