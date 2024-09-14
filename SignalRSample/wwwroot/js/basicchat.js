@@ -2,7 +2,7 @@
 //create connectin 
 var connectionChat = new signalR.HubConnectionBuilder()
     .configureLogging(signalR.LogLevel.Information)
-    .withUrl("/hubs/chat", signalR.HttpTransportType.WebSockets).build();
+    .withUrl("/hubs/basicchat", signalR.HttpTransportType.WebSockets).build();
 
 document.getElementById("sendMessage").disabled = true;
 

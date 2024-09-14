@@ -1,10 +1,12 @@
 using System.Diagnostics;
+using System.Security.Claims;
 using Grpc.Net.Client.Balancer;
 using Microsoft.AspNetCore.Mvc;
 using SignalRSample.Models;
 using SignalRSample.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using SignalRSample.Data;
+using SignalRSample.Models.ViewModels;
 
 namespace SignalRSample.Controllers;
 
@@ -14,7 +16,7 @@ public class HomeController : Controller
     private readonly IHubContext<DeathlyHallawsHub> _deathlyHallawHubContext;
     private readonly IHubContext<OrderHub> _orderHubContext;
     private readonly ApplicationDbContext _context;
-    public HomeController(ILogger<HomeController> logger, IHubContext<DeathlyHallawsHub> deathlyHallawHubContext, ApplicationDbContext context, 
+    public HomeController(ILogger<HomeController> logger, IHubContext<DeathlyHallawsHub> deathlyHallawHubContext, ApplicationDbContext context,
         IHubContext<OrderHub> orderHubContext)
     {
         _logger = logger;
@@ -56,11 +58,32 @@ public class HomeController : Controller
     {
         return View();
     }
-        public IActionResult BasicChat()
+    public IActionResult BasicChat()
     {
         return View();
     }
-
+    public IActionResult  Chat()
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        ChatVM chatVM = new ChatVM
+        {
+            Rooms = _context.ChatRooms.ToList(),
+            MaxRoomAllowed = 5,
+            UserId = userId,
+        };
+        return View();
+    }
+    public IActionResult AdvancedBasicChat()
+    {
+        var userId= User.FindFirstValue(ClaimTypes.NameIdentifier);
+        ChatVM chatVM = new ChatVM
+        {
+            Rooms = _context.ChatRooms.ToList(),
+            MaxRoomAllowed = 5,
+            UserId = userId,
+        };
+        return View();  
+    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
