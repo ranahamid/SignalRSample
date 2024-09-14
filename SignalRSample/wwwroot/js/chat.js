@@ -21,8 +21,7 @@ document.getElementById("sendMessage").addEventListener("click", function (event
     var receiverEmail = document.getElementById("receiverEmail").value;
     var chatMessage = document.getElementById("chatMessage").value; 
 
-    if (receiverEmail.length > 0) {
-
+    if (receiverEmail.length > 0) { 
         connectionChat.invoke("SendMessageToReceiver", senderEmail, receiverEmail, chatMessage).catch(function (err) {
             return console.error(err.toString());
         });

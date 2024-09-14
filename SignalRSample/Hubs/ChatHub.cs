@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 using SignalRSample.Data;
 
 namespace SignalRSample.Hubs
@@ -14,13 +15,18 @@ namespace SignalRSample.Hubs
         {
             await Clients.All.SendAsync("MessageReceived", sender, message);
         }
+        [Authorize]
         public async Task SendMessageToReceiver(string sender, string receiver, string message)
         {
-            var userId = _context.Users.FirstOrDefault(x => x.Email == receiver).Id;
-            if(userId != null)
+            if(!string.IsNullOrEmpty(receiver) && !string.IsNullOrEmpty(message))
             {
-                await Clients.User(userId).SendAsync("MessageReceived", sender, message);
-            } 
+                var userId = _context.Users.FirstOrDefault(x => x.Email.ToLower() == receiver.ToLower())?.Id;
+                if (userId != null)
+                {
+                    await Clients.User(userId).SendAsync("MessageReceived", sender, message);
+                }
+            }
+           
         }
     }
 }
