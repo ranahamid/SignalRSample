@@ -33,7 +33,7 @@ connectionNotification.on("LoadNotification", (messages, notificationCount) => {
     document.getElementById("messageList").innerHTML = "";
   
     for (let i = messages.length - 1; i >= 0; i--) {
-        debugger
+        
         var li = document.createElement("li");
         li.textContent = "Notitifaction- " + messages[i];
         document.getElementById("messageList").appendChild(li);

@@ -98,6 +98,7 @@ namespace SignalRSample.Controllers
         // POST: api/ChatRooms
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Route("/[controller]/PostChatRoom")]
         public async Task<ActionResult<ChatRoom>> PostChatRoom(ChatRoom chatRoom)
         {
             if (_context.ChatRooms == null)
@@ -112,6 +113,7 @@ namespace SignalRSample.Controllers
 
         // DELETE: api/ChatRooms/5
         [HttpDelete("{id}")]
+        [Route("/[controller]/DeleteChatRoom/{id}")]
         public async Task<IActionResult> DeleteChatRoom(int id)
         {
             if (_context.ChatRooms == null)

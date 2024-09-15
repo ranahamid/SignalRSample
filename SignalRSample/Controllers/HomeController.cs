@@ -71,9 +71,10 @@ public class HomeController : Controller
             MaxRoomAllowed = 5,
             UserId = userId,
         };
-        return View();
+        return View(chatVM);
     }
-    public IActionResult AdvancedBasicChat()
+
+    public IActionResult AdvancedChat()
     {
         var userId= User.FindFirstValue(ClaimTypes.NameIdentifier);
         ChatVM chatVM = new ChatVM
@@ -82,7 +83,7 @@ public class HomeController : Controller
             MaxRoomAllowed = 5,
             UserId = userId,
         };
-        return View();  
+        return View(chatVM);  
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
